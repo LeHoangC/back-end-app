@@ -1,0 +1,36 @@
+GET http://localhost:4000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjdW9uZyIsImlhdCI6MTY3NTM5MjQ3MCwiZXhwIjoxNjc1MzkyNzcwfQ.2RpbyYATza_ORqoKGMLxjk9qlji3S80k7WEEUKl0SV0
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "cuong"
+}
+
+###
+
+POST http://localhost:5000/token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJoZW5yeSIsImlhdCI6MTY3NTMzMDU1MiwiZXhwIjoxNjc1MzM0MTUyfQ.OSiSqMjC8g04oeNThLUklRpoNcMwpME9vbJuIPq-adw"
+}
+
+###
+
+DELETE http://localhost:5000/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJjdW9uZyIsImlhdCI6MTY3NTM5Nzk0MywiZXhwIjoxNjc1Mzk4MjQzfQ.mP35EKcDxBC2OUEk8lNuyP_JKHMrRwJ2zUcgXTBoZHU
+
+###
+POST http://localhost:4000/api/orders/create
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "quy",
+  "taikhoan": "quy",
+  
+}
