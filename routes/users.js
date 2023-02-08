@@ -3,6 +3,8 @@ const { PrismaClient } = require('@prisma/client')
 
 const { user } = new PrismaClient()
 
+
+
 router.get('/:slug', async (req, res) => {
     const users = await user.findMany({
         select: {
@@ -74,6 +76,18 @@ router.post('/update/token/:slug', async (req, res) => {
     res.json(deleteUser)
 })
 
+router.post('/update/img/:slug', async (req, res) => {
+    const deleteUser = await user.update({
+        data: {
+            img: req.body.img
+        },
+        where: {
+            email: req.params.slug,
+        },
+    })
+    res.json(deleteUser)
+})
+
 router.post('/update/:slug', async (req, res) => {
     const { email, name, id } = req.body
 
@@ -88,5 +102,7 @@ router.post('/update/:slug', async (req, res) => {
     })
     res.json(deleteUser)
 })
+
+
 
 module.exports = router

@@ -29,16 +29,35 @@ model products {
 }
 
 model orders {
-  id            Int      @id @default(autoincrement())
-  product_id    Int
-  Author_email  String
-  customer_name String
-  Phone_Number  String
-  Address       String
-  order_date    DateTime
-  authorId      Int
-  img           String
-  price         Float
+  id                  Int                @id @default(autoincrement())
+  product_id          Int
+  authorId            Int
+  customer_name       String
+  TenHang             String
+  img                 String
+  price               Float
+  TrangThai           String
+  SoLuong             Int
+  published           Boolean            @default(false)
+  ThongTinThanhToan   ThongTinThanhToan? @relation(fields: [thongTinThanhToanId], references: [id])
+  thongTinThanhToanId Int?
+}
+
+model ThongTinThanhToan {
+  id                  Int      @id @default(autoincrement())
+  product_id          Int
+  NguoiLam            String
+  KhachHang           String
+  Phone_Number        String
+  Address             String
+  order_date          DateTime
+  authorId            Int
+  TrangThai           String
+  TongTienChuaGiamGia Float
+  Thue                Float
+  GiamGiaCombo        Float
+  TongTienSauGiam     Float
+  orders              orders[]
 }
 
 model customer {

@@ -35,9 +35,7 @@ app.use('/api/products', require('./routes/products'))
 app.use('/api/orders/', require('./routes/oders'))
 app.use('/api/customer/', require('./routes/customer'))
 app.use('/api/customer_re/', require('./routes/customer_re'))
-
-
-
+app.use('/api/thanhtoan/', require('./routes/ThongTinThanhToan'))
 
 
 app.get('/posts', verifyToken, (req, res) => {
