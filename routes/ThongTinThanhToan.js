@@ -40,7 +40,7 @@ router.get('/:slug', async (req, res) => {
 })
 
 
-router.get('/Author_email/:slug', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
     const users = await thongTinThanhToan.findMany({
         select: {
             id: true,
@@ -52,18 +52,10 @@ router.get('/Author_email/:slug', async (req, res) => {
             order_date: true,
             Phone_Number: true,
             Address: true,
-            img: true,
-            price: true,
-            SoLuong: true,
             TrangThai: true,
-            GiamGia: true,
-            Thue: true,
-            ChuaGiamGia: true,
-            GiamGiaCombo: true,
-            TongTienSauGiamGia: true
         },
         where: {
-            Author_email: req.params.slug
+            id: Number(req.params.id)
         }
     })
     res.json(users)
