@@ -10,15 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
-  pass         String?
-  img          String
-  token        String
-  refreshToken String
-}
-
 model products {
   id          Int    @id @default(autoincrement())
   name        String
@@ -75,4 +66,35 @@ model KhachHangDaMua {
   Address      String
   Author_email String
   Note         String
+}
+
+model ChamCong {
+  id      Int    @id @default(autoincrement())
+  MaQR    String
+  Email   String
+  GioVao  String
+  GioRa   String
+  date    String
+  User    User?  @relation(fields: [user_id], references: [id])
+  user_id Int?
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  pass          String?
+  img           String
+  token         String
+  refreshToken  String
+  chamcong      ChamCong[]
+  khohangcanhan KhoHangCaNhan[]
+}
+
+model KhoHangCaNhan {
+  id        Int    @id @default(autoincrement())
+  TenHang   String
+  SoLuong   Int
+  TrangThai String
+  User      User?  @relation(fields: [user_id], references: [id])
+  user_id   Int?
 }

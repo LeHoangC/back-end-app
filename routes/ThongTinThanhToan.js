@@ -30,12 +30,120 @@ router.get('/:slug', async (req, res) => {
             TrangThai: true,
         },
         where: {
-            TrangThai: req.params.slug
+            TrangThai:
+            {
+                contains: req.params.slug
+            }
         }
     })
     res.json(users)
 
+})
 
+router.get('/khachhang/:slug', async (req, res) => {
+    const users = await thongTinThanhToan.findMany({
+        select: {
+            id: true,
+            product_id: true,
+            NguoiLam: true,
+            KhachHang: true,
+            order_date: true,
+            authorId: true,
+            order_date: true,
+            Phone_Number: true,
+            Address: true,
+            TrangThai: true,
+            orders: true
+        },
+        where: {
+            KhachHang: req.params.slug
+        }
+    })
+    res.json(users)
+
+})
+
+
+router.get('/NguoiLam/:slug/:TrangThai', async (req, res) => {
+    const users = await thongTinThanhToan.findMany({
+        select: {
+            id: true,
+            product_id: true,
+            NguoiLam: true,
+            KhachHang: true,
+            order_date: true,
+            authorId: true,
+            order_date: true,
+            Phone_Number: true,
+            Address: true,
+            TrangThai: true,
+            orders: true,
+            TongTienSauGiam: true
+
+        },
+        where: {
+            NguoiLam: req.params.slug,
+            TrangThai:
+            {
+                contains: req.params.TrangThai
+            }
+        }
+    })
+    res.json(users)
+
+})
+
+router.get('/NguoiLam/:slug', async (req, res) => {
+    const users = await thongTinThanhToan.findMany({
+        select: {
+            id: true,
+            product_id: true,
+            NguoiLam: true,
+            KhachHang: true,
+            order_date: true,
+            authorId: true,
+            order_date: true,
+            Phone_Number: true,
+            Address: true,
+            TrangThai: true,
+            orders: true,
+            TongTienSauGiam: true
+
+        },
+        where: {
+            NguoiLam: req.params.slug
+        }
+    })
+    res.json(users)
+
+})
+
+
+
+router.get('/NguoiLam/:slug/sdt/:number', async (req, res) => {
+    const users = await thongTinThanhToan.findMany({
+        select: {
+            id: true,
+            product_id: true,
+            NguoiLam: true,
+            KhachHang: true,
+            order_date: true,
+            authorId: true,
+            order_date: true,
+            Phone_Number: true,
+            Address: true,
+            TrangThai: true,
+            TongTienSauGiam: true
+        },
+        where: {
+            NguoiLam: req.params.slug,
+            Phone_Number:
+            {
+                contains: req.params.number
+            }
+        }
+    })
+    res.json(users)
 
 })
 

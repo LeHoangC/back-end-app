@@ -23,10 +23,12 @@ router.get('/:slug', async (req, res) => {
             price: true,
             SoLuong: true,
             TrangThai: true,
-            TenHang: true
+            TenHang: true,
+            customer_name: true
+
         },
         where: {
-            customer_name: req.params.slug
+            authorId: Number(req.params.slug)
         }
     })
     res.json(users)
@@ -61,7 +63,8 @@ router.get('/', async (req, res) => {
             price: true,
             SoLuong: true,
             TrangThai: true,
-            TenHang: true
+            TenHang: true,
+            customer_name: true
         },
     })
     res.json(users)

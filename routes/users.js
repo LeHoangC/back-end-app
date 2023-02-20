@@ -14,6 +14,8 @@ router.get('/:slug', async (req, res) => {
             img: true,
             token: true,
             refreshToken: true,
+            chamcong: true,
+            khohangcanhan: true
         },
         where: {
             email: req.params.slug,
@@ -30,6 +32,8 @@ router.get('/', async (req, res) => {
             pass: true,
             token: true,
             refreshToken: true,
+            chamcong: true,
+            khohangcanhan: true
         },
     })
     res.json(users)
