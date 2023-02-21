@@ -15,7 +15,9 @@ router.get('/:slug', async (req, res) => {
             token: true,
             refreshToken: true,
             chamcong: true,
-            khohangcanhan: true
+            khohangcanhan: true,
+            muonhang: true
+
         },
         where: {
             email: req.params.slug,
@@ -33,7 +35,8 @@ router.get('/', async (req, res) => {
             token: true,
             refreshToken: true,
             chamcong: true,
-            khohangcanhan: true
+            khohangcanhan: true,
+            muonhang: true
         },
     })
     res.json(users)

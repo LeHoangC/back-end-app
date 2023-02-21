@@ -106,6 +106,44 @@ CREATE TABLE `KhoHangCaNhan` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `MuonHang` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `TenHang` VARCHAR(191) NOT NULL,
+    `produce` INTEGER NOT NULL,
+    `SoLuong` INTEGER NOT NULL,
+    `TrangThai` VARCHAR(191) NOT NULL,
+    `date` VARCHAR(191) NOT NULL,
+    `NguoiMuon` VARCHAR(191) NOT NULL,
+    `user_id` INTEGER NULL,
+    `lichSuMuonHangId` INTEGER NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `MuonHangNhap` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `TenHang` VARCHAR(191) NOT NULL,
+    `SoLuong` INTEGER NOT NULL,
+    `TrangThai` VARCHAR(191) NOT NULL,
+    `date` VARCHAR(191) NOT NULL,
+    `NguoiMuon` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `LichSuMuonHang` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `TrangThai` VARCHAR(191) NOT NULL,
+    `date` VARCHAR(191) NOT NULL,
+    `NguoiMuon` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `orders` ADD CONSTRAINT `orders_thongTinThanhToanId_fkey` FOREIGN KEY (`thongTinThanhToanId`) REFERENCES `ThongTinThanhToan`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -114,3 +152,9 @@ ALTER TABLE `ChamCong` ADD CONSTRAINT `ChamCong_user_id_fkey` FOREIGN KEY (`user
 
 -- AddForeignKey
 ALTER TABLE `KhoHangCaNhan` ADD CONSTRAINT `KhoHangCaNhan_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MuonHang` ADD CONSTRAINT `MuonHang_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MuonHang` ADD CONSTRAINT `MuonHang_lichSuMuonHangId_fkey` FOREIGN KEY (`lichSuMuonHangId`) REFERENCES `LichSuMuonHang`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

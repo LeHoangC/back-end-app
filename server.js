@@ -37,6 +37,12 @@ app.use('/api/customer/', require('./routes/customer'))
 app.use('/api/customer_re/', require('./routes/customer_re'))
 app.use('/api/thanhtoan/', require('./routes/ThongTinThanhToan'))
 app.use('/api/chamcong/', require('./routes/ChamCong'))
+app.use('/api/muonhang/', require('./routes/MuonHang'))
+app.use('/api/lichsumuonhang/', require('./routes/LichSuMuonHang'))
+app.use('/api/muonhangnhap/', require('./routes/MuonHang_Nhap'))
+
+
+
 
 
 
