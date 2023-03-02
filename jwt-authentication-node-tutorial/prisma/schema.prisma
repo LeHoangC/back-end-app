@@ -10,31 +10,217 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
-  pass         String?
-  img          String
-  token        String
-  refreshToken String
+model users {
+  id              Int           @id @default(autoincrement())
+  email           String        @unique
+  pass            String
+  img             String
+  token           String
+  refreshToken    String
+  transactions    transactions? @relation(fields: [transactions_id], references: [id])
+  transactions_id Int?
+  inventory       inventory[]
+  ChamCong        ChamCong[]
 }
 
 model products {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  img         String
-  price       Float
-  properties  String
-  orders      orders[]
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String
+  img               String
+  price             Float
+  properties        String
+  Transaction_lines transaction_lines[]
+  inventory         inventory[]
+}
+
+model customer {
+  id            Int    @id @default(autoincrement())
+  customer_code String @default(uuid())
+  customer_name String
+  phone_number  String
+  Address       String
+  Note          String
 }
 
 model orders {
-  id             Int      @id @default(autoincrement())
-  product_id     Int
-  customer_name  String
-  customer_email String
-  order_date     DateTime
-  authorId       Int
-  author         products @relation(fields: [authorId], references: [id])
+  id              Int           @id @default(autoincrement())
+  product_id      Int
+  status          String
+  published       Boolean       @default(false)
+  transactions    transactions? @relation(fields: [transactions_id], references: [id])
+  transactions_id Int?
+
+  customer_history    customer_history? @relation(fields: [customer_history_id], references: [id])
+  customer_history_id Int?
 }
+
+model transaction_lines {
+  id             Int           @id @default(autoincrement())
+  oderhistory_id Int
+  product_id     Int
+  name           String
+  number_of      Int
+  price          Float
+  img            String
+  total_sale     Float
+  transaction    transactions? @relation(fields: [transaction_id], references: [id])
+  transaction_id Int?
+  products       products?     @relation(fields: [products_id], references: [id])
+  products_id    Int?
+}
+
+model transaction_payment {
+  id              Int           @id @default(autoincrement())
+  oderhistory_id  Int
+  payment_methods String
+  account_name    String
+  bank_name       String
+  total_sale      Float
+  account_number  String
+  transaction     transactions? @relation(fields: [transaction_id], references: [id])
+  transaction_id  Int?
+}
+
+model transactions {
+  id                            Int                   @id @default(autoincrement())
+  code_bill                     String
+  nguoithuchien                 String
+  order_date                    DateTime
+  status                        String
+  total_amount_without_discount Float
+  combo_discount                Float
+  VAT                           Float
+  discount                      Float
+  total_amount_after_discount   Float
+  orders                        orders[]
+  transaction_payment           transaction_payment[]
+  transaction_lines             transaction_lines[]
+  users                         users[]
+}
+
+model customer_history {
+  id           Int      @id @default(autoincrement())
+  name         String
+  Number       String
+  Address      String
+  Author_email String
+  Note         String
+  orders       orders[]
+}
+
+model TokenThongBao {
+  id    Int    @id @default(autoincrement())
+  Name  String
+  Token String
+}
+
+model inventory {
+  id         Int       @id @default(autoincrement())
+  exist      Int
+  users      users?    @relation(fields: [usersId], references: [id])
+  usersId    Int?
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model ChamCong {
+  id      Int    @id @default(autoincrement())
+  MaQR    String
+  Email   String
+  GioVao  String
+  GioRa   String
+  date    String
+  User    users? @relation(fields: [user_id], references: [id])
+  user_id Int?
+}
+
+// model User {
+//   id            Int             @id @default(autoincrement())
+//   email         String          @unique
+//   pass          String?
+//   img           String
+//   token         String
+//   refreshToken  String
+//   chamcong      ChamCong[]
+//   khohangcanhan KhoHangCaNhan[]
+//   muonhang      MuonHang[]
+// }
+
+// model KhoHangCaNhan {
+//   id          Int    @id @default(autoincrement())
+//   TenHang     String
+//   SoLuong     Int
+//   img         String
+//   description String
+//   TrangThai   String
+//   price       Float
+//   properties  String
+//   khohang     String
+//   User        User?  @relation(fields: [user_id], references: [id])
+//   user_id     Int?
+//   TieuChuan   Int
+// }
+
+// model MuonHang {
+//   id        Int    @id @default(autoincrement())
+//   TenHang   String
+//   produce   Int
+//   SoLuong   Int
+//   TrangThai String
+//   date      String
+//   NguoiMuon String
+//   User      User?  @relation(fields: [user_id], references: [id])
+//   user_id   Int?
+
+//   LichSuMuonHang   LichSuMuonHang? @relation(fields: [lichSuMuonHangId], references: [id])
+//   lichSuMuonHangId Int?
+// }
+
+// model MuonHangNhap {
+//   id        Int    @id @default(autoincrement())
+//   TenHang   String
+//   SoLuong   Int
+//   TrangThai String
+//   date      String
+//   NguoiMuon String
+// }
+
+// model LichSuMuonHang {
+//   id        Int        @id @default(autoincrement())
+//   TrangThai String
+//   date      String
+//   NguoiMuon String
+//   email     String
+//   MuonHang  MuonHang[]
+// }
+
+// model KhoHangTong {
+//   id          Int    @id @default(autoincrement())
+//   TenHang     String
+//   SoLuong     Int
+//   img         String
+//   description String
+//   TrangThai   String
+//   price       Float
+//   properties  String
+// }
+
+// model XuatHang {
+//   id               Int             @id @default(autoincrement())
+//   TenHang          String
+//   SoLuong          Int
+//   price            Float
+//   date             String
+//   name             String
+//   LichSuXuatHang   LichSuXuatHang? @relation(fields: [lichSuXuatHangId], references: [id])
+//   lichSuXuatHangId Int?
+// }
+
+// model LichSuXuatHang {
+//   id        Int        @id @default(autoincrement())
+//   Name      String
+//   date      String
+//   TrangThai String
+//   xuathang  XuatHang[]
+// }

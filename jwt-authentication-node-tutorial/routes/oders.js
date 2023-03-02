@@ -3,20 +3,69 @@ const { PrismaClient } = require('@prisma/client')
 
 const { orders } = new PrismaClient()
 
+router.post('/delete/:id', async (req, res) => {
+
+    const deleteUser = await orders.deleteMany({
+        where: {
+            id: Number(req.params.id),
+        },
+    })
+    res.json(deleteUser)
+
+})
 
 
-router.get('/:slug', async (req, res) => {
+router.get('/NguoiLam/:slug', async (req, res) => {
+    const users = await orders.findMany({
+        select: {
+            id: true,
+            authorId: true,
+            img: true,
+            price: true,
+            SoLuong: true,
+            TrangThai: true,
+            TenHang: true,
+            NguoiLam: true
+        },
+        where: {
+            NguoiLam: req.params.slug
+        }
+    })
+    res.json(users)
+})
+
+router.get('/transactions_id/:slug', async (req, res) => {
     const users = await orders.findMany({
         select: {
             id: true,
             product_id: true,
-            customer_name: true,
-            customer_email: true,
-            order_date: true,
-            authorId: true
+            status: true,
+
+            published: true,
+            transactions: true,
+            customer_history: true
+            // customerId: true,
         },
         where: {
-            email: req.params.slug
+            transactions_id: Number(req.params.slug)
+        }
+    })
+    res.json(users)
+})
+
+
+
+router.get('/Author_email/:slug', async (req, res) => {
+    const users = await orders.findMany({
+        select: {
+            id: true,
+            product_id: true,
+            status: true,
+            published: true,
+            transactions_id: true,
+        },
+        where: {
+            Author_email: req.params.slug
         }
     })
     res.json(users)
@@ -28,10 +77,11 @@ router.get('/', async (req, res) => {
         select: {
             id: true,
             product_id: true,
-            customer_name: true,
-            customer_email: true,
-            order_date: true,
-            authorId: true
+            status: true,
+
+            published: true,
+            transactions: true,
+            customer_history: true
         },
     })
     res.json(users)
@@ -43,78 +93,46 @@ router.post('/create', async (req, res) => {
 
     const users = await orders.create({
         data: {
-            product_id: req.body.id,
-            customer_name: req.body.name,
-            customer_email: req.body.taikhoan,
-            order_date: req.body.date,
-            authorId: req.body.id
+            product_id: req.body.idDonHang,
+            status: '',
+            published: true,
+            transactions_id: req.body.id,
+            customer_history_id: req.body.id
         },
     })
     res.json(users)
 })
 
 
-router.post('/', async (req, res) => {
-    const { email } = req.body;
 
-    const userExists = await orders.findUnique({
-        where: {
-            email
-        },
-        select: {
-            id: true,
-            product_id: true,
-            customer_name: true,
-            customer_email: true,
-            order_date: true,
-            authorId: true
-        }
-    })
-
-    if (userExists) {
-        return res.status(400).json({
-            msg: "Thất Bại!!"
-        })
-    }
-
-    const newUser = await user.create({
-        data: {
-            email
-        }
-    })
-    res.json(newUser)
-
-})
-
-router.post('/update/token/:slug', async (req, res) => {
+router.post('/update/:id', async (req, res) => {
     const deleteUser = await orders.update({
         data: {
-            token: "",
-            refreshToken: ""
+            TrangThai: "Đã Thanh Toán Bằng " + req.body.trangthai
         },
         where: {
-            email: req.params.slug
+            id: Number(req.params.id)
         }
     })
     res.json(deleteUser)
 
 })
 
-router.post('/update/:slug', async (req, res) => {
-    const { email, name, id } = req.body;
+router.post('/update/soluong/:id', async (req, res) => {
 
     const deleteUser = await orders.update({
         data: {
-            token: "Bearer " + req.body.Token,
-            refreshToken: "Bearer " + req.body.refreshToken
+            quantity: req.body.soluong
         },
         where: {
-            email: req.params.slug
+            id: Number(req.params.id)
         }
     })
     res.json(deleteUser)
 
 })
+
+
 
 
 module.exports = router

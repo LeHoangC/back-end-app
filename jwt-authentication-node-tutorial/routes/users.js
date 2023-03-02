@@ -1,42 +1,49 @@
 const router = require('express').Router()
 const { PrismaClient } = require('@prisma/client')
 
-const { user } = new PrismaClient()
+const { users } = new PrismaClient()
+
+
 
 router.get('/:slug', async (req, res) => {
-    const users = await user.findMany({
+    const user = await users.findMany({
         select: {
             id: true,
             email: true,
-            pass: true,
             img: true,
-            token: true,
             refreshToken: true,
+            transactions_id: true,
+            inventory: true,
+            ChamCong: true
         },
         where: {
             email: req.params.slug,
         },
     })
-    res.json(users)
+    res.json(user)
 })
 
 router.get('/', async (req, res) => {
-    const users = await user.findMany({
+    const user = await users.findMany({
         select: {
             id: true,
             email: true,
-            pass: true,
+            img: true,
             token: true,
             refreshToken: true,
+            transactions_id: true,
+            inventory: true,
+            ChamCong: true
+
         },
     })
-    res.json(users)
+    res.json(user)
 })
 
 router.post('/', async (req, res) => {
     const { email } = req.body
 
-    const userExists = await user.findUnique({
+    const userExists = await users.findUnique({
         where: {
             email,
         },
@@ -62,7 +69,7 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/update/token/:slug', async (req, res) => {
-    const deleteUser = await user.update({
+    const deleteUser = await users.update({
         data: {
             token: '',
             refreshToken: '',
@@ -74,10 +81,22 @@ router.post('/update/token/:slug', async (req, res) => {
     res.json(deleteUser)
 })
 
+router.post('/update/img/:slug', async (req, res) => {
+    const deleteUser = await users.update({
+        data: {
+            img: req.body.img
+        },
+        where: {
+            email: req.params.slug,
+        },
+    })
+    res.json(deleteUser)
+})
+
 router.post('/update/:slug', async (req, res) => {
     const { email, name, id } = req.body
 
-    const deleteUser = await user.update({
+    const deleteUser = await users.update({
         data: {
             token: 'Bearer ' + req.body.Token,
             refreshToken: 'Bearer ' + req.body.refreshToken,
@@ -88,5 +107,7 @@ router.post('/update/:slug', async (req, res) => {
     })
     res.json(deleteUser)
 })
+
+
 
 module.exports = router
