@@ -97,11 +97,11 @@ router.post('/create', async (req, res) => {
 
     const users = await MuonHang.create({
         data: {
-            TenHang: req.body.tenhang,
+            TenHang: req.body.name,
             SoLuong: req.body.soluong,
             TrangThai: "Chưa Xác Nhận",
             date: new Date(),
-            user_id: req.body.id,
+            user_id: Number(req.body.id),
             produce: req.body.produce,
             NguoiMuon: req.body.nguoimuon
         },
@@ -144,47 +144,6 @@ router.post('/update/trangthai/:slug', async (req, res) => {
 
 
 
-
-
-router.post('/update/token/:slug', async (req, res) => {
-    const deleteUser = await MuonHang.update({
-        data: {
-            token: '',
-            refreshToken: '',
-        },
-        where: {
-            email: req.params.slug,
-        },
-    })
-    res.json(deleteUser)
-})
-
-router.post('/update/img/:slug', async (req, res) => {
-    const deleteUser = await MuonHang.update({
-        data: {
-            img: req.body.img
-        },
-        where: {
-            email: req.params.slug,
-        },
-    })
-    res.json(deleteUser)
-})
-
-router.post('/update/:slug', async (req, res) => {
-    const { email, name, id } = req.body
-
-    const deleteUser = await MuonHang.update({
-        data: {
-            token: 'Bearer ' + req.body.Token,
-            refreshToken: 'Bearer ' + req.body.refreshToken,
-        },
-        where: {
-            email: req.params.slug,
-        },
-    })
-    res.json(deleteUser)
-})
 
 
 

@@ -83,7 +83,7 @@ router.post('/create', async (req, res) => {
 
     const users = await MuonHangNhap.create({
         data: {
-            TenHang: req.body.tenhang,
+            TenHang: req.body.name,
             SoLuong: req.body.soluong,
             TrangThai: "Chưa Xác Nhận",
             date: new Date(),
