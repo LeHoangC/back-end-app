@@ -11,22 +11,21 @@ app.use(express.json())
 // database
 
 const posts = [
-	{
-		userId: 1,
-		post: 'post henry',
-		email: 'quy'
-	},
-	{
-		userId: 2,
-		post: 'post jim',
-		email: 'cuong'
-	},
-	{
-		userId: 1,
-		post: 'post henry 2',
-		email: 'quy'
-
-	}
+    {
+        userId: 1,
+        post: 'post henry',
+        email: 'quy',
+    },
+    {
+        userId: 2,
+        post: 'post jim',
+        email: 'cuong',
+    },
+    {
+        userId: 1,
+        post: 'post henry 2',
+        email: 'quy',
+    },
 ]
 
 // app
@@ -47,14 +46,14 @@ app.use('/api/transaction_payment/', require('./routes/transaction_payment'))
 app.use('/api/transaction_lines/', require('./routes/transaction_lines'))
 app.use('/api/inventory/', require('./routes/inventory'))
 
-
-
+app.use('/api/donxin/', require('./routes/DonXin'))
+app.use('/api/dangkylichparttime/', require('./routes/DangKyParttime'))
+app.use('/api/lichdangkyparttime/', require('./routes/LichDangKyParttime'))
 
 // app.get('/posts', verifyToken, (req, res) => {
 // 	res.json(posts.filter(post => post.email === req.email))
 // })
 
-
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 1000
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

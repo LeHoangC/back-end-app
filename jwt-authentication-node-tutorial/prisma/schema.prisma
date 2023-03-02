@@ -21,6 +21,8 @@ model users {
   transactions_id Int?
   inventory       inventory[]
   ChamCong        ChamCong[]
+  muonhang           MuonHang[]
+  lichdangkiparttime DangKiLichParttime[]
 }
 
 model products {
@@ -135,17 +137,41 @@ model ChamCong {
   user_id Int?
 }
 
-// model User {
-//   id            Int             @id @default(autoincrement())
-//   email         String          @unique
-//   pass          String?
-//   img           String
-//   token         String
-//   refreshToken  String
-//   chamcong      ChamCong[]
-//   khohangcanhan KhoHangCaNhan[]
-//   muonhang      MuonHang[]
-// }
+
+model DonXin {
+  id              Int    @id @default(autoincrement())
+  name            String
+  type            String
+  LiDoNghi        String
+  CongViecBanGiao String
+  CamKet          String
+  Date            String
+  endDate         String @default(value: "")
+  soNgayNghi      Int    @default(value: 0)
+  status          String
+  banGiaoCho      String @default(value: "")
+}
+
+model DangKiLichParttime {
+  id         Int          @id @default(autoincrement())
+  status     String
+  startDate  String
+  endDate    String
+  user_id    Int?
+  User       users?        @relation(fields: [user_id], references: [id])
+  NgayDangKy NgayDangKy[]
+}
+
+model NgayDangKy {
+  id                 Int                @id @default(autoincrement())
+  dangky_id          Int
+  date               String
+  sang               Boolean            @default(true)
+  chieu              Boolean            @default(false)
+  toi                Boolean            @default(false)
+  DangKiLichParttime DangKiLichParttime @relation(fields: [dangky_id], references: [id])
+}
+
 
 // model KhoHangCaNhan {
 //   id          Int    @id @default(autoincrement())
@@ -157,70 +183,70 @@ model ChamCong {
 //   price       Float
 //   properties  String
 //   khohang     String
-//   User        User?  @relation(fields: [user_id], references: [id])
+//   User        users?  @relation(fields: [user_id], references: [id])
 //   user_id     Int?
 //   TieuChuan   Int
 // }
 
-// model MuonHang {
-//   id        Int    @id @default(autoincrement())
-//   TenHang   String
-//   produce   Int
-//   SoLuong   Int
-//   TrangThai String
-//   date      String
-//   NguoiMuon String
-//   User      User?  @relation(fields: [user_id], references: [id])
-//   user_id   Int?
+model MuonHang {
+  id        Int    @id @default(autoincrement())
+  TenHang   String
+  produce   Int
+  SoLuong   Int
+  TrangThai String
+  date      String
+  NguoiMuon String
+  User      users?  @relation(fields: [user_id], references: [id])
+  user_id   Int?
 
-//   LichSuMuonHang   LichSuMuonHang? @relation(fields: [lichSuMuonHangId], references: [id])
-//   lichSuMuonHangId Int?
-// }
+  LichSuMuonHang   LichSuMuonHang? @relation(fields: [lichSuMuonHangId], references: [id])
+  lichSuMuonHangId Int?
+}
 
-// model MuonHangNhap {
-//   id        Int    @id @default(autoincrement())
-//   TenHang   String
-//   SoLuong   Int
-//   TrangThai String
-//   date      String
-//   NguoiMuon String
-// }
+model MuonHangNhap {
+  id        Int    @id @default(autoincrement())
+  TenHang   String
+  SoLuong   Int
+  TrangThai String
+  date      String
+  NguoiMuon String
+}
 
-// model LichSuMuonHang {
-//   id        Int        @id @default(autoincrement())
-//   TrangThai String
-//   date      String
-//   NguoiMuon String
-//   email     String
-//   MuonHang  MuonHang[]
-// }
+model LichSuMuonHang {
+  id        Int        @id @default(autoincrement())
+  TrangThai String
+  date      String
+  NguoiMuon String
+  email     String
+  MuonHang  MuonHang[]
+}
 
-// model KhoHangTong {
-//   id          Int    @id @default(autoincrement())
-//   TenHang     String
-//   SoLuong     Int
-//   img         String
-//   description String
-//   TrangThai   String
-//   price       Float
-//   properties  String
-// }
+model KhoHangTong {
+  id          Int    @id @default(autoincrement())
+  TenHang     String
+  SoLuong     Int
+  img         String
+  description String
+  TrangThai   String
+  price       Float
+  properties  String
+}
 
-// model XuatHang {
-//   id               Int             @id @default(autoincrement())
-//   TenHang          String
-//   SoLuong          Int
-//   price            Float
-//   date             String
-//   name             String
-//   LichSuXuatHang   LichSuXuatHang? @relation(fields: [lichSuXuatHangId], references: [id])
-//   lichSuXuatHangId Int?
-// }
+model XuatHang {
+  id               Int             @id @default(autoincrement())
+  TenHang          String
+  SoLuong          Int
+  price            Float
+  date             String
+  name             String
+  LichSuXuatHang   LichSuXuatHang? @relation(fields: [lichSuXuatHangId], references: [id])
+  lichSuXuatHangId Int?
+}
 
-// model LichSuXuatHang {
-//   id        Int        @id @default(autoincrement())
-//   Name      String
-//   date      String
-//   TrangThai String
-//   xuathang  XuatHang[]
-// }
+model LichSuXuatHang {
+  id        Int        @id @default(autoincrement())
+  Name      String
+  date      String
+  TrangThai String
+  xuathang  XuatHang[]
+}
