@@ -82,7 +82,7 @@ router.post('/create', async (req, res) => {
             GioVao: req.body.giovao,
             GioRa: '',
             date: getFormattedDate(new Date()),
-            user_id: req.body.id
+            user_id: Number(req.body.id)
         },
     })
     res.json(deleteUser)

@@ -11,17 +11,19 @@ datasource db {
 }
 
 model users {
-  id              Int           @id @default(autoincrement())
-  email           String        @unique
-  pass            String
-  img             String
-  token           String
-  refreshToken    String
-  transactions    transactions? @relation(fields: [transactions_id], references: [id])
-  transactions_id Int?
-  inventory       inventory[]
-  ChamCong        ChamCong[]
-  MuonHang        MuonHang[]
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique
+  pass               String
+  img                String
+  token              String
+  refreshToken       String
+  transactions       transactions?        @relation(fields: [transactions_id], references: [id])
+  transactions_id    Int?
+  chisocanhan        ChiSoCaNhan[]
+  inventory          inventory[]
+  ChamCong           ChamCong[]
+  MuonHang           MuonHang[]
+  lichdangkiparttime DangKiLichParttime[]
 }
 
 model products {
@@ -52,8 +54,8 @@ model orders {
   transactions    transactions? @relation(fields: [transactions_id], references: [id])
   transactions_id Int?
 
-  customer_history    customer_history? @relation(fields: [customer_history_id], references: [id])
-  customer_history_id Int?
+  customer_nhap   customer_nhap? @relation(fields: [customer_nhapId], references: [id])
+  customer_nhapId Int?
 }
 
 model transaction_lines {
@@ -98,9 +100,21 @@ model transactions {
   transaction_payment           transaction_payment[]
   transaction_lines             transaction_lines[]
   users                         users[]
+  customer_history              customer_history[]
 }
 
 model customer_history {
+  id             Int           @id @default(autoincrement())
+  name           String
+  Number         String
+  Address        String
+  Author_email   String
+  Note           String
+  transactions   transactions? @relation(fields: [transactionsId], references: [id])
+  transactionsId Int?
+}
+
+model customer_nhap {
   id           Int      @id @default(autoincrement())
   name         String
   Number       String
@@ -119,6 +133,7 @@ model TokenThongBao {
 model inventory {
   id         Int       @id @default(autoincrement())
   exist      Int
+  tieu_chuan Int
   users      users?    @relation(fields: [usersId], references: [id])
   usersId    Int?
   products   products? @relation(fields: [productsId], references: [id])
@@ -136,17 +151,39 @@ model ChamCong {
   user_id Int?
 }
 
-// model User {
-//   id            Int             @id @default(autoincrement())
-//   email         String          @unique
-//   pass          String?
-//   img           String
-//   token         String
-//   refreshToken  String
-//   chamcong      ChamCong[]
-//   khohangcanhan KhoHangCaNhan[]
-//   muonhang      MuonHang[]
-// }
+model DonXin {
+  id              Int    @id @default(autoincrement())
+  name            String
+  type            String
+  LiDoNghi        String
+  CongViecBanGiao String
+  CamKet          String
+  Date            String
+  endDate         String @default(value: "")
+  soNgayNghi      Int    @default(value: 0)
+  status          String
+  banGiaoCho      String @default(value: "")
+}
+
+model DangKiLichParttime {
+  id         Int          @id @default(autoincrement())
+  status     String
+  startDate  String
+  endDate    String
+  user_id    Int?
+  User       users?       @relation(fields: [user_id], references: [id])
+  NgayDangKy NgayDangKy[]
+}
+
+model NgayDangKy {
+  id                 Int                @id @default(autoincrement())
+  dangky_id          Int
+  date               String
+  sang               Boolean            @default(true)
+  chieu              Boolean            @default(false)
+  toi                Boolean            @default(false)
+  DangKiLichParttime DangKiLichParttime @relation(fields: [dangky_id], references: [id])
+}
 
 // model KhoHangCaNhan {
 //   id          Int    @id @default(autoincrement())
@@ -158,7 +195,7 @@ model ChamCong {
 //   price       Float
 //   properties  String
 //   khohang     String
-//   User        User?  @relation(fields: [user_id], references: [id])
+//   User        users?  @relation(fields: [user_id], references: [id])
 //   user_id     Int?
 //   TieuChuan   Int
 // }
@@ -224,4 +261,26 @@ model LichSuXuatHang {
   date      String
   TrangThai String
   xuathang  XuatHang[]
+}
+
+model ChiSoCaNhan {
+  id                     Int    @id @default(autoincrement())
+  email                  String
+  luong_tam_tinh         Float
+  ngay_cong              Float
+  chiet_khau_thay_loi    Float
+  chiet_khau_don_them    Float
+  so_don_phat_sinh       Float
+  gia_tri_TB_hien_tai    Float
+  gia_tri_TB_yeu_cau     Float
+  gia_tri_TB_con_thieu   Float
+  tong_so_tien_Con_thieu Float
+  so_don_ve_sinh         Float
+  ti_le_ve_sinh_TT       Float
+  OLE                    Float
+  so_KM_TB_don           Float
+  time_TB                Float
+
+  users   users? @relation(fields: [usersId], references: [id])
+  usersId Int?
 }

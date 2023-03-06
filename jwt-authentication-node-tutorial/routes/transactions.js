@@ -20,16 +20,23 @@ router.get('/:slug', async (req, res) => {
         select: {
             id: true,
             order_date: true,
-            TrangThai: true,
-            TongTienChuaGiamGia: true,
-            GiamGiaCombo: true,
-            TongTienSauGiam: true,
+            code_bill: true,
+            nguoithuchien: true,
+            status: true,
+            total_amount_after_discount: true,
+            VAT: true,
+            combo_discount: true,
+            total_amount_without_discount: true,
+            discount: true,
             orders: true,
+            users: true,
             transaction_payment: true,
             transaction_lines: true,
+            customer_history: true,
+
         },
         where: {
-            TrangThai:
+            status:
             {
                 contains: req.params.slug
             }
@@ -55,7 +62,9 @@ router.get('/code_bill/:slug', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
+
         },
         where: {
             code_bill: req.params.slug
@@ -82,7 +91,9 @@ router.get('/NguoiLam/:slug/:TrangThai', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
+
 
         },
         where: {
@@ -113,7 +124,9 @@ router.get('/NguoiLam/:slug', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
+
 
         },
         where: {
@@ -142,7 +155,9 @@ router.get('/NguoiLam/:slug/sdt/:number', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
+
         },
         where: {
             nguoithuchien: req.params.slug,
@@ -173,7 +188,9 @@ router.get('/id/:id', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
+
         },
         where: {
             id: Number(req.params.id)
@@ -199,7 +216,8 @@ router.get('/', async (req, res) => {
             orders: true,
             users: true,
             transaction_payment: true,
-            transaction_lines: true
+            transaction_lines: true,
+            customer_history: true,
         },
     })
     res.json(usersWithPosts)

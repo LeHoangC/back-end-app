@@ -78,10 +78,8 @@ router.get('/', async (req, res) => {
             id: true,
             product_id: true,
             status: true,
-
             published: true,
             transactions: true,
-            customer_history: true
         },
     })
     res.json(users)
@@ -96,8 +94,8 @@ router.post('/create', async (req, res) => {
             product_id: req.body.idDonHang,
             status: '',
             published: true,
-            transactions_id: req.body.id,
-            customer_history_id: req.body.id
+            transactions_id: Number(req.body.id),
+            customer_nhapId: Number(req.body.id)
         },
     })
     res.json(users)

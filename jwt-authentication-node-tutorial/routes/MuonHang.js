@@ -53,6 +53,26 @@ router.post('/delete/id/:id', async (req, res) => {
 
 })
 
+router.get('/id/:id', async (req, res) => {
+    const users = await MuonHang.findMany({
+        select: {
+            id: true,
+            TenHang: true,
+            produce: true,
+            SoLuong: true,
+            TrangThai: true,
+            date: true,
+            NguoiMuon: true,
+            user_id: true,
+            lichSuMuonHangId: true
+        },
+        where: {
+            lichSuMuonHangId: Number(req.params.id),
+        },
+    })
+    res.json(users)
+})
+
 router.get('/:slug', async (req, res) => {
     const users = await MuonHang.findMany({
         select: {
@@ -102,8 +122,9 @@ router.post('/create', async (req, res) => {
             TrangThai: "Chưa Xác Nhận",
             date: new Date(),
             user_id: Number(req.body.id),
-            produce: req.body.produce,
-            NguoiMuon: req.body.nguoimuon
+            produce: req.body.produce_id,
+            NguoiMuon: req.body.nguoimuon,
+            lichSuMuonHangId: req.body.lichsu_id
         },
     })
     res.json(users)
