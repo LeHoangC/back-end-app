@@ -12,8 +12,10 @@ router.get('/:email', async (req, res) => {
             id: true,
             MaQR: true,
             Email: true,
-            GioVao: true,
-            GioRa: true,
+            sang_GioVao: true,
+            sang_GioRa: true,
+            chieu_GioVao: true,
+            chieu_GioRa: true,
             date: true,
         },
         where: {
@@ -29,8 +31,10 @@ router.get('/', async (req, res) => {
             id: true,
             MaQR: true,
             Email: true,
-            GioVao: true,
-            GioRa: true,
+            sang_GioVao: true,
+            sang_GioRa: true,
+            chieu_GioVao: true,
+            chieu_GioRa: true,
             date: true,
         },
     })
@@ -79,10 +83,43 @@ router.post('/create', async (req, res) => {
         data: {
             MaQR: req.body.maqr,
             Email: req.body.email,
-            GioVao: req.body.giovao,
-            GioRa: '',
+            sang_GioVao: req.body.giovao,
+            sang_GioRa: '',
+            chieu_GioVao: '',
+            chieu_GioRa: '',
             date: getFormattedDate(new Date()),
             user_id: Number(req.body.id)
+        },
+    })
+    res.json(deleteUser)
+})
+
+
+router.post('/update/chieuvao/:id', async (req, res) => {
+    const a = new Date();
+    var time = a.getHours() + ":" + a.getMinutes() + ":" + a.getSeconds();
+
+    const deleteUser = await ChamCong.update({
+        data: {
+            chieu_GioVao: time
+        },
+        where: {
+            id: Number(req.params.id),
+        },
+    })
+    res.json(deleteUser)
+})
+
+router.post('/update/chieura/:id', async (req, res) => {
+    const a = new Date();
+    var time = a.getHours() + ":" + a.getMinutes() + ":" + a.getSeconds();
+
+    const deleteUser = await ChamCong.update({
+        data: {
+            chieu_GioRa: time
+        },
+        where: {
+            id: Number(req.params.id),
         },
     })
     res.json(deleteUser)
@@ -94,7 +131,7 @@ router.post('/update/:id', async (req, res) => {
 
     const deleteUser = await ChamCong.update({
         data: {
-            GioRa: time
+            sang_GioRa: time
         },
         where: {
             id: Number(req.params.id),
@@ -103,20 +140,7 @@ router.post('/update/:id', async (req, res) => {
     res.json(deleteUser)
 })
 
-router.post('/update/:slug', async (req, res) => {
-    const { email, name, id } = chamcong.body
 
-    const deleteUser = await user.update({
-        data: {
-            token: 'Bearer ' + req.body.Token,
-            refreshToken: 'Bearer ' + req.body.refreshToken,
-        },
-        where: {
-            email: req.params.slug,
-        },
-    })
-    res.json(deleteUser)
-})
 
 
 

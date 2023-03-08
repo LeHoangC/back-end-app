@@ -141,14 +141,16 @@ model inventory {
 }
 
 model ChamCong {
-  id      Int    @id @default(autoincrement())
-  MaQR    String
-  Email   String
-  GioVao  String
-  GioRa   String
-  date    String
-  User    users? @relation(fields: [user_id], references: [id])
-  user_id Int?
+  id           Int    @id @default(autoincrement())
+  MaQR         String
+  Email        String
+  sang_GioVao  String
+  sang_GioRa   String
+  chieu_GioVao String
+  chieu_GioRa  String
+  date         String
+  User         users? @relation(fields: [user_id], references: [id])
+  user_id      Int?
 }
 
 model DonXin {

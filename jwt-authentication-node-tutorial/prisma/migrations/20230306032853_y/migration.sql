@@ -1,9 +1,23 @@
 /*
   Warnings:
 
+  - You are about to drop the column `GioRa` on the `chamcong` table. All the data in the column will be lost.
+  - You are about to drop the column `GioVao` on the `chamcong` table. All the data in the column will be lost.
+  - Added the required column `chieu_GioRa` to the `ChamCong` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `chieu_GioVao` to the `ChamCong` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `sang_GioRa` to the `ChamCong` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `sang_GioVao` to the `ChamCong` table without a default value. This is not possible if the table is not empty.
   - Added the required column `tieu_chuan` to the `inventory` table without a default value. This is not possible if the table is not empty.
 
 */
+-- AlterTable
+ALTER TABLE `chamcong` DROP COLUMN `GioRa`,
+    DROP COLUMN `GioVao`,
+    ADD COLUMN `chieu_GioRa` VARCHAR(191) NOT NULL,
+    ADD COLUMN `chieu_GioVao` VARCHAR(191) NOT NULL,
+    ADD COLUMN `sang_GioRa` VARCHAR(191) NOT NULL,
+    ADD COLUMN `sang_GioVao` VARCHAR(191) NOT NULL;
+
 -- AlterTable
 ALTER TABLE `inventory` ADD COLUMN `tieu_chuan` INTEGER NOT NULL;
 
