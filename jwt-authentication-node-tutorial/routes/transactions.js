@@ -157,6 +157,8 @@ router.get('/NguoiLam/:slug/sdt/:number', async (req, res) => {
             transaction_payment: true,
             transaction_lines: true,
             customer_history: true,
+            customer_history: true,
+
 
         },
         where: {
@@ -190,6 +192,8 @@ router.get('/id/:id', async (req, res) => {
             transaction_payment: true,
             transaction_lines: true,
             customer_history: true,
+            order_comment: true,
+            order_img: true
 
         },
         where: {
@@ -218,6 +222,9 @@ router.get('/', async (req, res) => {
             transaction_payment: true,
             transaction_lines: true,
             customer_history: true,
+            order_comment: true,
+            order_img: true
+
         },
     })
     res.json(usersWithPosts)

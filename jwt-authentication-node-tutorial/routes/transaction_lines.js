@@ -46,7 +46,7 @@ router.post('/create', async (req, res) => {
             img: req.body.img,
             price: req.body.price,
             total_sale: req.body.total_sale,
-            transaction_id: req.body.id,
+            transaction_id: Number(req.body.id),
             product_id: req.body.idDonHang,
         },
     })

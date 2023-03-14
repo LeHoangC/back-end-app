@@ -47,6 +47,14 @@ app.use('/api/transaction_payment/', require('./routes/transaction_payment'))
 app.use('/api/transaction_lines/', require('./routes/transaction_lines'))
 app.use('/api/inventory/', require('./routes/inventory'))
 app.use('/api/chisocanhan/', require('./routes/chisocanhan'))
+app.use('/api/lichsuxuathang/', require('./routes/lichsuxuathang'))
+app.use('/api/xuathang/', require('./routes/XuatHang'))
+app.use('/api/order_img/', require('./routes/order_img'))
+app.use('/api/order_comment/', require('./routes/order_comment'))
+
+
+
+
 
 
 app.use('/api/donxin/', require('./routes/DonXin'))

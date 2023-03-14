@@ -101,6 +101,8 @@ model transactions {
   transaction_lines             transaction_lines[]
   users                         users[]
   customer_history              customer_history[]
+  order_comment                 order_comment[]
+  order_img                     order_img[]
 }
 
 model customer_history {
@@ -262,6 +264,7 @@ model LichSuXuatHang {
   Name      String
   date      String
   TrangThai String
+  SoLuong   Int
   xuathang  XuatHang[]
 }
 
@@ -285,4 +288,24 @@ model ChiSoCaNhan {
 
   users   users? @relation(fields: [usersId], references: [id])
   usersId Int?
+}
+
+model order_comment {
+  id             Int           @id @default(autoincrement())
+  email          String
+  conten         String
+  date           String
+  time           String
+  transactions   transactions? @relation(fields: [transactionsId], references: [id])
+  transactionsId Int?
+}
+
+model order_img {
+  id             Int           @id @default(autoincrement())
+  email          String
+  img            String
+  date           String
+  time           String
+  transactions   transactions? @relation(fields: [transactionsId], references: [id])
+  transactionsId Int?
 }

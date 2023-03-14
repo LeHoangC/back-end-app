@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const { PrismaClient } = require('@prisma/client')
 
-const { MuonHangNhap } = new PrismaClient()
+const { XuatHang } = new PrismaClient()
 
 
 router.post('/update/lichsumuonhangId/:slug', async (req, res) => {
-    const update = await MuonHangNhap.updateMany({
+    const update = await XuatHang.updateMany({
         data: {
             lichSuMuonHangId: req.body.id
         },
@@ -19,7 +19,7 @@ router.post('/update/lichsumuonhangId/:slug', async (req, res) => {
 
 router.post('/delete/:slug', async (req, res) => {
 
-    const deleteUser = await MuonHangNhap.deleteMany({
+    const deleteUser = await XuatHang.deleteMany({
         where: {
             NguoiMuon: req.params.slug
 
@@ -31,7 +31,7 @@ router.post('/delete/:slug', async (req, res) => {
 
 router.post('/delete/id/:id', async (req, res) => {
 
-    const deleteUser = await MuonHangNhap.delete({
+    const deleteUser = await XuatHang.delete({
         where: {
             id: Number(req.params.id)
 
@@ -42,7 +42,7 @@ router.post('/delete/id/:id', async (req, res) => {
 })
 
 router.get('/:slug', async (req, res) => {
-    const users = await MuonHangNhap.findMany({
+    const users = await XuatHang.findMany({
         select: {
             id: true,
             TenHang: true,
@@ -59,7 +59,7 @@ router.get('/:slug', async (req, res) => {
 })
 
 router.get('/trangthai/:slug', async (req, res) => {
-    const users = await MuonHangNhap.findMany({
+    const users = await XuatHang.findMany({
         select: {
             id: true,
             TenHang: true,
@@ -78,16 +78,24 @@ router.get('/trangthai/:slug', async (req, res) => {
     res.json(users)
 })
 
+function getFormattedDate(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+
+    return day + '/' + month + '/' + year;
+}
 
 router.post('/create', async (req, res) => {
 
-    const users = await MuonHangNhap.create({
+    const users = await XuatHang.create({
         data: {
-            TenHang: req.body.name,
+            name: req.body.name,
+            date: getFormattedDate(new Date()),
+            TenHang: req.body.tenhang,
             SoLuong: req.body.soluong,
-            TrangThai: "Chưa Xác Nhận",
-            date: new Date(),
-            NguoiMuon: req.body.nguoimuon
+            price: req.body.price,
+            lichSuXuatHangId: Number(req.body.id)
 
         },
     })
@@ -95,14 +103,15 @@ router.post('/create', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    const users = await MuonHangNhap.findMany({
+    const users = await XuatHang.findMany({
         select: {
             id: true,
             TenHang: true,
-            SoLuong: true,
-            TrangThai: true,
             date: true,
-            NguoiMuon: true,
+            SoLuong: true,
+            price: true,
+            name: true,
+            lichSuXuatHangId: true
 
         },
     })
@@ -110,7 +119,7 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/update/soluong/:id', async (req, res) => {
-    const deleteUser = await MuonHangNhap.update({
+    const deleteUser = await XuatHang.update({
         data: {
             SoLuong: req.body.soluong
         },
@@ -123,7 +132,7 @@ router.post('/update/soluong/:id', async (req, res) => {
 })
 
 router.post('/update/trangthai/:slug', async (req, res) => {
-    const update = await MuonHangNhap.updateMany({
+    const update = await XuatHang.updateMany({
         data: {
             TrangThai: "Đã Xác Nhận"
         },
